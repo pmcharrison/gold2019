@@ -1,6 +1,10 @@
 library(tidyverse)
 theme_set(theme_classic())
 
+outliers <- function(x, threshold = 2) {
+  abs(scale(x)) >= threshold
+}
+
 dat_4a <- read_csv("input/fig-4a.csv",
                    col_types = cols(), 
                    col_names = c("x", "y")) %>% 
@@ -10,10 +14,6 @@ dat_4b <- read_csv("input/fig-4b.csv",
                    col_types = cols(), 
                    col_names = c("x", "y")) %>% 
   mutate(x_outlier = outliers(x))
-
-outliers <- function(x, threshold = 2) {
-  abs(scale(x)) >= threshold
-}
 
 dat_4a %>% 
   ggplot(aes(x, y, colour = x_outlier)) +
